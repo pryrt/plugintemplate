@@ -18,6 +18,10 @@ jobs:
     #   if someone _wants_ this, change the name to match their own fork or project
     if: ${{ github.repository_name == 'notepad-plus-plus/plugintemplate' }} || ${{ github.repository_name == 'pryrt/plugintemplate' }}
 
+    permissions:
+      packages: write
+      contents: write
+
     runs-on: windows-latest
     strategy:
       max-parallel: 6
@@ -91,6 +95,14 @@ jobs:
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: Updating plugintemplate based on most recent N++ repo (${{ steps.diff_step.outputs.CHANGE_DATE }})
+
+    - name: Release
+      if: ${{steps.diff_step.outputs.ANY_DIFFERENCE}}
+      uses: elgohr/Github-Release-Action@v5
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        title: MyReleaseMessage v${{ steps.diff_step.outputs.CHANGE_DATE }}.${{github.run_number}}.${{github.run_attempt}}
 
     # sometime in the future, need to try to create a tag and then release it
     #   maybe based on https://graphite.dev/guides/how-to-automate-tagging-and-release-workflows-in-github and softprops/action-gh-release
