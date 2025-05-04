@@ -102,7 +102,7 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        title: MyReleaseMessage v${{ steps.diff_step.outputs.CHANGE_DATE }}.${{github.run_number}}.${{github.run_attempt}}
+        title: Plugin Template for Notepad++ release v${{ steps.diff_step.outputs.CHANGE_DATE }}.${{github.run_number}}.${{github.run_attempt}}
 
     # sometime in the future, need to try to create a tag and then release it
     #   maybe based on https://graphite.dev/guides/how-to-automate-tagging-and-release-workflows-in-github and softprops/action-gh-release
